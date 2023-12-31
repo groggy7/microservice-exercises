@@ -39,7 +39,7 @@ func (p *Products) GetProducts() []models.Product {
 	return p.products
 }
 
-func (p *Products) AddProducts(product models.Product) error {
+func (p *Products) AddProduct(product models.Product) error {
 	p.products = append(p.products, product)
 	return nil
 }

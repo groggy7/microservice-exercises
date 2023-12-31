@@ -25,7 +25,7 @@ func (p *ProductService) AddProduct(product dto.AddProductRequest) error {
 		Type:  product.Type,
 		Price: product.Price,
 	}
-	return p.productRepository.AddProducts(newProduct)
+	return p.productRepository.AddProduct(newProduct)
 }
 
 func (p *ProductService) GetProducts() []models.Product {

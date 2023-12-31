@@ -2,8 +2,10 @@ package server
 
 import (
 	"microservice/internal/api/http/handlers"
-	"microservice/internal/api/http/middleware"
+	"microservice/internal/api/http/middlewares"
+	"net/http"
 
+	"github.com/go-openapi/runtime/middleware"
 	"github.com/gorilla/mux"
 )
 
@@ -20,12 +22,17 @@ func NewProductRouter(handler *handlers.ProductHandler) Router {
 func (r *Router) InitRouter() (router *mux.Router) {
 	router = mux.NewRouter()
 
-	listRouter := router.Methods("GET").Subrouter()
-	listRouter.HandleFunc("/list", r.handler.GetProducts)
+	opts := middleware.RedocOpts{SpecURL: "../../../../swagger.yaml"}
+	docs := middleware.Redoc(opts, nil)
 
-	addRouter := router.Methods("POST").Subrouter()
-	addRouter.HandleFunc("/add", r.handler.AddProduct)
-	addRouter.Use(middleware.ValidateAddProduct)
+	getRouter := router.Methods("GET").Subrouter()
+	getRouter.HandleFunc("/list", r.handler.GetProducts)
+	getRouter.Handle("/docs", docs)
+	getRouter.Handle("/swagger.yaml", http.FileServer(http.Dir("./")))
+
+	postRouter := router.Methods("POST").Subrouter()
+	postRouter.HandleFunc("/add", r.handler.AddProduct)
+	postRouter.Use(middlewares.ValidateAddProduct)
 
 	return
 }

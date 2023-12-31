@@ -1,0 +1,54 @@
+basePath: /
+consumes:
+    - application/json
+definitions:
+    Product:
+        properties:
+            id:
+                type: string
+                x-go-name: Id
+            name:
+                type: string
+                x-go-name: Name
+            price:
+                format: int64
+                type: integer
+                x-go-name: Price
+            type:
+                type: string
+                x-go-name: Type
+        type: object
+        x-go-package: microservice/pkg/models
+host: localhost
+info:
+    title: Product API.
+    version: 0.0.1
+paths:
+    /list:
+        get:
+            consumes:
+                - application/json
+            description: This will show all available products by default.
+            operationId: listProducts
+            produces:
+                - application/json
+            responses:
+                "200":
+                    $ref: '#/responses/productsResponse'
+            schemes:
+                - http
+            summary: Lists all products.
+            tags:
+                - products
+produces:
+    - application/json
+responses:
+    productsResponse:
+        description: ""
+        schema:
+            items:
+                $ref: '#/definitions/Product'
+            type: array
+schemes:
+    - http
+swagger: "2.0"

@@ -1,3 +1,17 @@
+// Package classification Product API.
+//
+//	Schemes: http
+//	Host: localhost
+//	BasePath: /
+//	Version: 0.0.1
+//
+//	Consumes:
+//	- application/json
+//
+//	Produces:
+//	- application/json
+//
+// swagger:meta
 package handlers
 
 import (
@@ -18,7 +32,24 @@ func NewProductHandler(productSvc services.ProductService) ProductHandler {
 	}
 }
 
+// GetProduct lists products to the user
 func (h *ProductHandler) GetProducts(rw http.ResponseWriter, r *http.Request) {
+	// swagger:route GET /list products listProducts
+	//
+	// Lists all products.
+	// This will show all available products by default.
+	//
+	//     Consumes:
+	//     - application/json
+	//
+	//     Produces:
+	//     - application/json
+	//
+	//     Schemes: http
+	//
+	//     Responses:
+	//       200: productsResponse
+
 	products, err := json.Marshal(h.productSvc.GetProducts())
 	if err != nil {
 		rw.Write([]byte(err.Error()))
